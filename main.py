@@ -1,9 +1,3 @@
-# Install necessary libraries
-!pip3 install coinbase-advanced-py
-!pip install coinbase pandas statsmodels
-!pip install gspread
-!pip install nbconvert
-
 import pandas as pd
 import uuid
 import json
