@@ -4,8 +4,6 @@
 !pip install gspread
 !pip install nbconvert
 
-from coinbase.wallet.error import CoinbaseError
-
 import pandas as pd
 import uuid
 import json
@@ -13,44 +11,31 @@ from datetime import datetime, timedelta
 import requests
 import time
 import logging
+import matplotlib.pyplot as plt
+import numpy as np
+import statsmodels.api as sm
+import gspread
+import os
+
+
+from coinbase.wallet.client import Client
+from coinbase.rest import RESTClient
+from coinbase.wallet.error import CoinbaseError
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import LSTM, Dense, Dropout
-import matplotlib.pyplot as plt
-import numpy as np
-
-
-# Mount Google Drive
-from google.colab import drive
-import os
-
-drive.mount('/content/drive')
-
-# Install nbconvert
-!pip install nbconvert
-
-# Convert the Jupyter Notebook to a Python script
-!jupyter nbconvert --to script /content/drive/MyDrive/QuantRecruiting/TradingBot.ipynb
-
-# Define the old and new file paths
-old_file_path = '/content/drive/MyDrive/QuantRecruiting/TradingBot.txt'
-new_file_path = '/content/drive/MyDrive/QuantRecruiting/main.py'
-
-# Rename the file
-os.rename(old_file_path, new_file_path)
-
-
-import gspread
+from json import dumps
 from google.oauth2.service_account import Credentials
-from google.colab import drive
 
-# service account email: danny-125@cryptotrades-429213.iam.gserviceaccount.com
-# service account id: 102642234583282890448
-# serive account key: ed9181ec7f49b540d1d9d775b8543c952ab0c51f
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 
-# Path to your service account key file
-SERVICE_ACCOUNT_FILE = '/content/drive/MyDrive/QuantRecruiting/GoogleServiceKey.json'
+API_KEY = os.getenv('API_KEY')
+API_SECRET = os.getenv('API_SECRET')
+CRYPTOCOMPARE_API_KEY = os.getenv('CRYPTOCOMPARE_API_KEY')
+SERVICE_ACCOUNT_FILE = os.getenv('SERVICE_ACCOUNT_FILE')
 
 # Define the scope
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
@@ -64,17 +49,7 @@ gc = gspread.authorize(credentials)
 # Open the Google Sheets document by its name or URL
 spreadsheet = gc.open("CryptoTrading")
 
-from coinbase.wallet.client import Client
-from coinbase.rest import RESTClient
-from json import dumps
-import statsmodels.api as sm
-from google.colab import userdata
-
-# API key
-api_key = userdata.get('CoinbaseApi')
-
 # API secret (private key in this case)
-api_secret = userdata.get('CoinbaseSecret')
 # Initialize the Coinbase client
 client = RESTClient(api_key=api_key, api_secret=api_secret)
 
@@ -162,7 +137,6 @@ def place_order_and_log_to_sheets(client, spreadsheet, product_id, quote_size, s
     print("Order data appended to Google Sheets 'Orders' sheet")
     print("Fills data appended to Google Sheets 'Fills' sheet")
 
-CRYPTOCOMPARE_API_KEY = userdata.get('CryptoCompare')
 
 def fetch_historical_data(asset, limit=365):
     url = f'https://min-api.cryptocompare.com/data/v2/histoday'
