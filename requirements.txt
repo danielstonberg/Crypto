@@ -1,0 +1,13 @@
+coinbase-advanced-py
+coinbase
+pandas
+statsmodels
+gspread
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+scikit-learn
+keras
+matplotlib
+numpy
+python-dotenv
