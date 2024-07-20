@@ -11,3 +11,4 @@ keras
 matplotlib
 numpy
 python-dotenv
+tensorflow
