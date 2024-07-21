@@ -225,7 +225,7 @@ def generate_trading_signals(actual_prices, predictions, buyThreshold=0.01, sell
             signals.append('hold')
     return signals
 
-def run_trading_bot(client, model, scaler, seq_length, interval=1800):
+def run_trading_bot(client, model, scaler, seq_length, interval=1200):
 
     # Configure logging to output to both file and console
     logging.basicConfig(
