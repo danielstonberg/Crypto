@@ -45,7 +45,7 @@ spreadsheet = gc.open("CryptoTrading")
 
 # API secret (private key in this case)
 # Initialize the Coinbase client
-client = RESTClient(api_key=api_key, api_secret=api_secret)
+client = RESTClient(api_key=API_KEY, api_secret=API_SECRET)
 
 def place_order_and_log_to_sheets(client, spreadsheet, product_id, quote_size, strategy_id="0"):
     # Generate a unique client order ID
