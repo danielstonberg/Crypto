@@ -214,7 +214,7 @@ def train_and_predict(data, seq_length=15, epochs=15):
 
     return model, scaler, seq_length
 
-def generate_trading_signals(actual_prices, predictions, buyThreshold=0.01, sellThreshold=0.05, period=5):
+def generate_trading_signals(actual_prices, predictions, buyThreshold=0.01, sellThreshold=0.005, period=5):
     signals = []
     for i in range(period, len(actual_prices)):
         if (actual_prices[i] > actual_prices[i-period] * (1 + buyThreshold)) and (predictions[i-period] < predictions[i]):
